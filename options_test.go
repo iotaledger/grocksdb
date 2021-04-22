@@ -164,7 +164,7 @@ func TestOptions(t *testing.T) {
 	opts.SetBottommostCompression(ZLibCompression)
 	require.EqualValues(t, ZLibCompression, opts.GetBottommostCompression())
 
-	require.EqualValues(t, SnappyCompression, opts.GetCompression())
+	require.EqualValues(t, NoCompression, opts.GetCompression())
 	opts.SetCompression(LZ4Compression)
 	require.EqualValues(t, LZ4Compression, opts.GetCompression())
 
