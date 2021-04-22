@@ -17,8 +17,8 @@ prepare:
 
 .PHONY: libs
 libs:
-	./build.sh $(DEST)
+	bash build.sh $(DEST)
 
 .PHONY: test
 test:
-	go test -race -v -count=1 -tags testing,grocksdb_no_link
+	go test -v -count=1 -tags testing
