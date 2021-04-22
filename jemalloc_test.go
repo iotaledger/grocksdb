@@ -1,4 +1,4 @@
-// +build !testing,jemalloc
+// +build testing,jemalloc
 
 package grocksdb
 
