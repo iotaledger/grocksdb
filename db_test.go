@@ -156,7 +156,7 @@ func newTestDB(t *testing.T, applyOpts func(opts *Options)) *DB {
 	rateLimiter := NewRateLimiter(1024, 100*1000, 10)
 	opts.SetRateLimiter(rateLimiter)
 	opts.SetCreateIfMissing(true)
-	opts.SetCompression(ZSTDCompression)
+	opts.SetCompression(NoCompression)
 	if applyOpts != nil {
 		applyOpts(opts)
 	}
@@ -177,7 +177,7 @@ func newTestDBAndOpts(t *testing.T, applyOpts func(opts *Options)) (*DB, *Option
 	rateLimiter := NewRateLimiter(1024, 100*1000, 10)
 	opts.SetRateLimiter(rateLimiter)
 	opts.SetCreateIfMissing(true)
-	opts.SetCompression(ZSTDCompression)
+	opts.SetCompression(NoCompression)
 	if applyOpts != nil {
 		applyOpts(opts)
 	}
@@ -193,7 +193,7 @@ func newTestDBMultiCF(t *testing.T, columns []string, applyOpts func(opts *Optio
 	opts := NewDefaultOptions()
 	opts.SetCreateIfMissingColumnFamilies(true)
 	opts.SetCreateIfMissing(true)
-	opts.SetCompression(ZSTDCompression)
+	opts.SetCompression(NoCompression)
 	opts.SetSkipCheckingSSTFileSizesOnDBOpen(true)
 	opts.SetRateLimiter(NewRateLimiter(2<<30, 1<<20, 100<<20))
 	opts.SetUniversalCompactionOptions(NewDefaultUniversalCompactionOptions())
