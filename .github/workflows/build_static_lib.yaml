@@ -1,0 +1,42 @@
+name: Build static lib
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    container: gohornet/goreleaser-cgo-cross-compiler:1.16.4
+    steps:
+
+    - name: checkout-repo
+      uses: actions/checkout@v2
+
+    - name: parse-version
+      id: parse-version
+      run: echo "::set-output name=ROCKSDB_VERSION::`cat build.sh | grep rocksdb_version= | sed 's/rocksdb_version=\"\(.*\)\"/\1/'`"
+
+    - name: build-amd64
+      run: make libs
+
+    - name: build-arm64
+      run: make libs
+      env:
+        GOARCH: arm64
+
+    - name: build-win-amd64
+      run: make libs
+      env:
+        GOOS: windows
+
+    - name: commit-changes
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add dist
+        git commit -m "Build static libs for RocksDB v${{ steps.parse-version.outputs.ROCKSDB_VERSION }}"
+        git checkout -b "release/hornet-static-rocksdb-${{ steps.parse-version.outputs.ROCKSDB_VERSION }}"
+        git push --set-upstream origin "release/hornet-static-rocksdb-${{ steps.parse-version.outputs.ROCKSDB_VERSION }}"
